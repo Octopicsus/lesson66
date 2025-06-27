@@ -122,8 +122,6 @@ router.get('/newlist', ensureJWTAuthenticated(), async (req, res) => {
     }
 });
 
-// Маршруты с использованием курсоров для итерации без загрузки всех данных в память
-
 router.get('/users/cursor', ensureJWTAuthenticated(), async (req, res) => {
     try {
         const { sort, limit } = req.query;
@@ -194,8 +192,6 @@ router.get('/users/count/cursor', ensureJWTAuthenticated(), async (req, res) => 
         res.status(500).json({ error: error.message });
     }
 });
-
-// Агрегационные запросы для аналитики
 
 router.get('/analytics/users', ensureJWTAuthenticated(), async (req, res) => {
     try {
