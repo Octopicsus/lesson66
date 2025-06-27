@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Protected Area</title>
+    <link rel="icon" href="/img/google.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/protected.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Protected Area</h2>
+      <div class="success">
+        <h3>Welcome, <%= user.name %>!</h3>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-cards">
+          <div class="stat-card">
+            <span class="stat-label">User Count:</span>
+            <span class="stat-value"><%= stats.totalUsers %></span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Avg Name Length:</span>
+            <span class="stat-value"><%= stats.avgNameLength %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="users-list">
+        <div class="list-header">
+          <h3>Registered Users</h3>
+          <button class="copy-btn" onclick="copyAllUsers()">
+            Copy all to Other List
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>ID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(user) { %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.id %></td>
+              <td>
+                <button
+                  class="delete-btn"
+                  onclick="deleteUser('<%= user.id %>')"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="users-list">
+        <div class="list-header">
+          <h3>Other List</h3>
+          <button class="clean-btn" onclick="cleanAllUsers()">Clean all</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>ID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% newList.forEach(function(item) { %>
+            <tr>
+              <td><%= item.name %></td>
+              <td><%= item.id %></td>
+              <td>
+                <button
+                  class="edit-btn"
+                  onclick="editUser('<%= item.id %>', '<%= item.name %>')"
+                >
+                  Edit
+                </button>
+                <button
+                  class="delete-btn"
+                  onclick="deleteNewListItem('<%= item.id %>')"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+      <a href="/">Back to Home</a>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <h3>Edit User Name</h3>
+        <input type="text" id="editNameInput" placeholder="Enter new name" />
+        <div class="modal-buttons">
+          <button class="edit-btn" onclick="saveEdit()">Edit</button>
+          <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import {
+        deleteUser,
+        deleteNewListItem,
+        copyAllUsers,
+        cleanAllUsers,
+      } from "/src/functions/client.js";
+      import { editUser, closeModal, saveEdit } from "/src/functions/modal.js";
+
+      window.deleteUser = deleteUser;
+      window.deleteNewListItem = deleteNewListItem;
+      window.copyAllUsers = copyAllUsers;
+      window.cleanAllUsers = cleanAllUsers;
+      window.editUser = editUser;
+      window.closeModal = closeModal;
+      window.saveEdit = saveEdit;
+
+      window.onclick = function (event) {
+        const modal = document.getElementById("editModal");
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
+    </script>
+  </body>
+</html>
